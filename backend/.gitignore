@@ -1,0 +1,26 @@
+# --- Archivos de Compilación (Basura de Java) ---
+target/
+*.class
+*.jar
+*.war
+
+# --- Archivos de Eclipse / STS (Configuración de tu PC) ---
+.settings/
+.classpath
+.project
+.metadata/
+bin/
+.sts4-cache
+
+# --- Logs de Errores (No subir historial de fallos) ---
+logs/
+*.log
+
+# --- Archivos del Sistema Operativo (Basura) ---
+.DS_Store
+Thumbs.db
+
+# --- Otros IDEs (Por si tu profe usa otro) ---
+.idea/
+.vscode/
+*.iml
