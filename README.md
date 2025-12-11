@@ -122,6 +122,21 @@ La API está documentada con **Swagger UI**. Algunos endpoints clave:
 
 ---
 
+
+## ⚠️ Seguridad y Variables de Entorno
+
+Este proyecto NO incluye credenciales en el código fuente por seguridad.
+Para ejecutarlo localmente, debes configurar las siguientes **Variables de Entorno** en tu IDE (Eclipse/IntelliJ) o en tu sistema operativo:
+
+| Variable | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `DB_USER` | Usuario de MySQL | `TU_USUARIO` |
+| `DB_PASSWORD` | Contraseña de MySQL | `123456` |
+| `JWT_SECRET_KEY` | Llave para firmar Tokens | **No publicada.** Solicitar la clave de desarrollo al Coordinador (Royser) por interno. |
+
+> **Nota:** Si no configuras estas variables, el proyecto no arrancará.
+
+---
 ## 📂 8. Estructura del Proyecto
 
 ```text

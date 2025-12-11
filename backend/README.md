@@ -57,6 +57,19 @@ Puedes probar los endpoints usando el Swagger integrado o Postman.
 * **Endpoints Públicos:** `/api/auth/**`, `/api/public/**`
 * **Endpoints Protegidos:** `/api/admin/**` (Requiere Token Bearer)
 
+## ⚠️ Seguridad y Variables de Entorno
+
+Este proyecto NO incluye credenciales en el código fuente por seguridad.
+Para ejecutarlo localmente, debes configurar las siguientes **Variables de Entorno** en tu IDE (Eclipse/IntelliJ) o en tu sistema operativo:
+
+| Variable | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `DB_USER` | Usuario de MySQL | `TU_USUARIO` |
+| `DB_PASSWORD` | Contraseña de MySQL | `123456` |
+| `JWT_SECRET_KEY` | Llave para firmar Tokens | **No publicada.** Solicitar la clave de desarrollo al Coordinador (Royser) por interno. |
+
+> **Nota:** Si no configuras estas variables, el proyecto no arrancará.
+
 ## 📂 Estructura del Proyecto
 * `config`: Configuraciones de Seguridad y App.
 * `controller`: Controladores REST (Endpoints).
