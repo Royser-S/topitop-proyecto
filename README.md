@@ -46,12 +46,21 @@ La arquitectura desacopla el **Backend (API REST)** del **Frontend (SPA)**, gara
 ### ⚙️ Configuración (`application.properties`)
 El sistema conecta a la base de datos `topitop_db`. Verifica tus credenciales en `backend/src/main/resources/application.properties`:
 
-| Variable | Descripción | Valor Configurado |
+---
+
+## ⚠️ Seguridad y Variables de Entorno
+
+Este proyecto NO incluye credenciales en el código fuente por seguridad.
+Para ejecutarlo localmente, debes configurar las siguientes **Variables de Entorno** en tu IDE (Eclipse/IntelliJ) o en tu sistema operativo:
+
+| Variable | Descripción | Ejemplo |
 | :--- | :--- | :--- |
-| `spring.datasource.url` | Conexión JDBC | `jdbc:mysql://localhost:3306/topitop_db` |
-| `spring.datasource.username` | Usuario BD | `root` |
-| `spring.datasource.password` | Contraseña BD | `mysql` (⚠️ ¡Cámbialo!) |
-| `jwt.secret` | Firma Token | *(Clave segura configurada)* |
+| `DB_USER` | Usuario de MySQL | `TU_USUARIO` |
+| `DB_PASSWORD` | Contraseña de MySQL | `123456` |
+| `JWT_SECRET_KEY` | Llave para firmar Tokens | **No publicada.** Solicitar la clave de desarrollo al Coordinador (Royser) por interno. |
+
+> **Nota:** Si no configuras estas variables, el proyecto no arrancará.
+---
 
 ### ▶️ Pasos para ejecutar:
 
@@ -69,24 +78,25 @@ El sistema conecta a la base de datos `topitop_db`. Verifica tus credenciales en
 
 ---
 
-## 💻 4. Instalación y Ejecución (Frontend)
+## 💻 4. Instalación y Ejecución (Frontend - Panel Admin)
 
 ### 📋 Requisitos
 * [x] Node.js v18 o superior.
 
 ### ▶️ Pasos para ejecutar:
-
-1.  **Terminal:** Abre una **nueva** consola en la carpeta `/frontend`.
-2.  **Instalar librerías:**
+1.  **Entrar a la carpeta:**
+    ```bash
+    cd frontend
+    ```
+2.  **Instalar dependencias:**
     ```bash
     npm install
     ```
-3.  **Iniciar:**
+3.  **Iniciar en modo desarrollo:**
     ```bash
     npm run dev
     ```
-4.  **Ver Tienda:** Entra a tu navegador en:
-    👉 [http://localhost:5173](http://localhost:5173)
+4.  **Acceso:** Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
 
 ---
 
@@ -122,21 +132,6 @@ La API está documentada con **Swagger UI**. Algunos endpoints clave:
 
 ---
 
-
-## ⚠️ Seguridad y Variables de Entorno
-
-Este proyecto NO incluye credenciales en el código fuente por seguridad.
-Para ejecutarlo localmente, debes configurar las siguientes **Variables de Entorno** en tu IDE (Eclipse/IntelliJ) o en tu sistema operativo:
-
-| Variable | Descripción | Ejemplo |
-| :--- | :--- | :--- |
-| `DB_USER` | Usuario de MySQL | `TU_USUARIO` |
-| `DB_PASSWORD` | Contraseña de MySQL | `123456` |
-| `JWT_SECRET_KEY` | Llave para firmar Tokens | **No publicada.** Solicitar la clave de desarrollo al Coordinador (Royser) por interno. |
-
-> **Nota:** Si no configuras estas variables, el proyecto no arrancará.
-
----
 ## 📂 8. Estructura del Proyecto
 
 ```text
@@ -153,3 +148,19 @@ Para ejecutarlo localmente, debes configurar las siguientes **Variables de Entor
 │   └── README.md       # Instrucciones Frontend
 │
 └── README.md           # Este archivo general
+```
+
+## 👥 Equipo de Desarrollo
+
+Este proyecto fue diseñado y construido con 🤍 por:
+
+* **Royser** - *Frontend & Integración*
+* **Patrick** - *Backend & Base de Datos*
+* **Benner** - *QA & Documentación*
+
+---
+
+<div align="center">
+  <small>Copyright © 2025 TopiTop Admin. Todos los derechos reservados.</small>
+</div>
+
