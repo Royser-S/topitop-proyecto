@@ -67,5 +67,20 @@ public class MarcaService {
         marca.setEstado(false);
         marcaRepository.save(marca);
     }
+    
+    public MarcaDTO cambiarEstado(Integer id) {
+        Marca marca = marcaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Marca no encontrada con ID: " + id));
+        
+        // 2. Invertimos el valor (Toggle)
+        // !marca.isEstado() significa "lo contrario de lo que tenga ahora"
+        marca.setEstado(!marca.isEstado());
+        
+        // 3. Guardamos el cambio en la BD
+        Marca guardada = marcaRepository.save(marca);
+        
+        // 4. Devolvemos el DTO actualizado para que React sepa el nuevo color
+        return modelMapper.map(guardada, MarcaDTO.class);
+    }
 	
 }

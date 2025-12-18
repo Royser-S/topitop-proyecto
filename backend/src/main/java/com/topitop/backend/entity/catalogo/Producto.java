@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -61,6 +63,7 @@ public class Producto {
     
     // Relación con las imágenes
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("producto") // <--- 2. AGREGAR ESTO
     private List<ProductoImagen> imagenes;
 
     @PrePersist

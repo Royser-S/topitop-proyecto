@@ -28,7 +28,7 @@ public class Marca {
     private String slug;
     
  // --- AGREGADO: ESTADO PARA BORRADO LÓGICO ---
-    private Boolean estado;
+    private boolean estado;
 
     @Column(name = "imagen_logo")
     private String imagenLogo;

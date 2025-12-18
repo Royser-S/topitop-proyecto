@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class MarcaController {
 
 	private final MarcaService marcaService;
@@ -60,6 +62,15 @@ public class MarcaController {
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         marcaService.eliminar(id);
         return ResponseEntity.ok().build();
+        
+    }
+    
+ // NUEVO: Cambiar estado (Activar/Desactivar) 
+    // URL: PUT /api/admin/marcas/{id}/estado
+    @PutMapping("/admin/marcas/{id}/estado")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<MarcaDTO> cambiarEstado(@PathVariable Integer id) {
+        return ResponseEntity.ok(marcaService.cambiarEstado(id));
     }
 	
 }

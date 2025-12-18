@@ -26,5 +26,13 @@ public class ItemCarritoDTO {
     private String colorHex; // Para pintar la bolita en el carrito
     
     private String imagenUrl; // Para la foto en miniatura
+    
+// ... campos anteriores ...
+    
+    // NUEVOS: Para validar disponibilidad en tiempo real en la vista del Carrito
+    private Boolean productoActivo;
+    private Boolean marcaActiva;
+    private Integer stockActual; // Para avisar si el stock bajó mientras lo tenía en el carrito
+
 	
 }

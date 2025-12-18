@@ -1,0 +1,46 @@
+/* --- AJUSTES PARA MODO OSCURO (Bootstrap 5.3) --- */
+
+/* Cuando el modo oscuro está activo... */
+[data-bs-theme="dark"] .bg-white {
+    /* Forzamos que 'bg-white' sea gris oscuro */
+    background-color: #212529 !important; 
+    color: #e9ecef !important;
+}
+
+[data-bs-theme="dark"] .bg-light {
+    /* Forzamos que 'bg-light' sea un gris un poquito más claro */
+    background-color: #2b3035 !important;
+    color: #e9ecef !important;
+    border-color: #495057 !important;
+}
+
+[data-bs-theme="dark"] .card {
+    /* Las tarjetas tendrán borde sutil */
+    background-color: #212529;
+    border-color: #373b3e;
+}
+
+[data-bs-theme="dark"] .text-dark {
+    /* El texto negro se vuelve blanco */
+    color: #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+    /* El texto gris se vuelve gris claro */
+    color: #adb5bd !important;
+}
+
+[data-bs-theme="dark"] .table {
+    /* Tablas oscuras */
+    --bs-table-color: #fff;
+    --bs-table-bg: #212529;
+    border-color: #373b3e;
+}
+
+/* Hacemos que los inputs no brillen tanto en modo oscuro */
+[data-bs-theme="dark"] .form-control, 
+[data-bs-theme="dark"] .form-select {
+    background-color: #2b3035;
+    border-color: #495057;
+    color: #fff;
+}

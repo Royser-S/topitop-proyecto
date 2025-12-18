@@ -1,5 +1,6 @@
 package com.topitop.backend.service.catalogo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,13 @@ public class ProductoService {
     public ProductoDTO obtenerPorId(Long id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con ID: " + id));
+        
+        // 🔒 SEGURIDAD EXTRA: Si está inactivo o la marca está inactiva, decimos que "No existe"
+        // Nota: Asegúrate de usar .isEstado() o .getEstado() según corresponda a tu entidad
+        if (!producto.getEstado() || !producto.getMarca().isEstado()) { 
+             throw new ResourceNotFoundException("El producto no está disponible actualmente.");
+        }
+
         return convertirADTO(producto);
     }
 
@@ -56,13 +64,16 @@ public class ProductoService {
             producto.setPrecio(dto.getPrecio());
             producto.setPrecioDescuento(dto.getPrecioDescuento());
             producto.setDestacado(dto.getDestacado());
+            
+
         } else {
             producto = modelMapper.map(dto, Producto.class);
             producto.setId(null);
             producto.setEstado(true);
+            producto.setImagenes(new ArrayList<>()); // Inicializamos la lista vacía
         }
 
-        // VALIDACIÓN DE RELACIONES (Si fallan, Exception -> Rollback)
+        // VALIDACIÓN DE RELACIONES
         if (dto.getMarcaId() != null) {
             Marca marca = marcaRepository.findById(dto.getMarcaId())
                     .orElseThrow(() -> new ResourceNotFoundException("Marca no encontrada con ID: " + dto.getMarcaId()));
@@ -75,21 +86,29 @@ public class ProductoService {
             producto.setCategoria(categoria);
         }
         
-       // LÓGICA PARA GUARDAR IMÁGENES (Si el DTO trae fotos)
+       // LÓGICA CORREGIDA PARA IMÁGENES
         if (dto.getImagenes() != null && !dto.getImagenes().isEmpty()) {
-            // Primero borramos las anteriores si es edición (para simplificar)
-            // Nota: Necesitas inyectar ProductoImagenRepository arriba
-            // productoImagenRepository.deleteByProductoId(producto.getId()); 
             
+            // Si la lista de imágenes del producto es null, la creamos
+            if (producto.getImagenes() == null) {
+                producto.setImagenes(new ArrayList<>());
+            } else {
+                // Si quieres reemplazar las fotos al editar, descomenta esto:
+                // producto.getImagenes().clear();
+            }
+
             for (int i = 0; i < dto.getImagenes().size(); i++) {
                 ProductoImagen img = new ProductoImagen();
                 img.setUrlImagen(dto.getImagenes().get(i));
-                img.setOrden(i + 1); // La primera es la portada
-                img.setProducto(producto);
-                // productoImagenRepository.save(img); // Guardar	
+                img.setOrden(i + 1); 
+                img.setProducto(producto); // <--- VINCULAMOS LA IMAGEN AL PRODUCTO
+                
+                // ¡IMPORTANTE! Agregamos la imagen a la lista del producto
+                producto.getImagenes().add(img);
             }
         }
 
+        // Al guardar el producto, el CascadeType.ALL guardará las imágenes automáticamente
         Producto guardado = productoRepository.save(producto);
         return convertirADTO(guardado);
     }
@@ -101,6 +120,26 @@ public class ProductoService {
         producto.setEstado(false);
         productoRepository.save(producto);
     }
+    
+    public ProductoDTO cambiarEstado(Long id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con ID: " + id));
+        
+        // Invertimos el valor (true -> false, false -> true)
+        producto.setEstado(!producto.getEstado());
+        
+        Producto guardado = productoRepository.save(producto);
+        return convertirADTO(guardado);
+    }
+    
+
+    @Transactional(readOnly = true)
+    public List<ProductoDTO> listarTodosAdmin() {
+        return productoRepository.findAll().stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+
 
     private ProductoDTO convertirADTO(Producto p) {
         ProductoDTO dto = modelMapper.map(p, ProductoDTO.class);

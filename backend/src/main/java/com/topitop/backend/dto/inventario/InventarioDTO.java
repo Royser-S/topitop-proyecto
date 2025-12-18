@@ -32,5 +32,10 @@ public class InventarioDTO {
     private String nombreProducto;
     private String nombreTalla;
     private String nombreColor;
+    
+ // INFORMACIÓN DE ESTADO (Para alertas en el Admin)
+    private Boolean productoActivo; // ¿El producto está encendido?
+    private String nombreMarca;     // Nombre de la marca
+    private Boolean marcaActiva;    // ¿La marca está encendida?
 
 }

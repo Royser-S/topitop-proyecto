@@ -2,6 +2,7 @@ package com.topitop.backend.entity.orden;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.topitop.backend.entity.inventario.Inventario;
 
 import jakarta.persistence.Column;
@@ -29,6 +30,7 @@ public class DetalleOrden {
 
     @ManyToOne
     @JoinColumn(name = "orden_id", nullable = false)
+    @JsonIgnore // <--- 2. AGREGAR ESTA LÍNEA MÁGICA // <--- 2. AGREGAR ESTO
     private Orden orden;
 
     @ManyToOne

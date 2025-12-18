@@ -35,6 +35,21 @@ public class ProductoController {
     public ResponseEntity<List<ProductoDTO>> listarTodos() {
         return ResponseEntity.ok(productoService.listarProductosPublicos());
     }
+    
+ // ... endpoints públicos arriba ...
+
+    // ==========================================
+    // RUTAS PRIVADAS (Admin)
+    // ==========================================
+
+    // NUEVO: Listar TODOS los productos (Activos e Inactivos) para el panel Admin
+    @GetMapping("/admin/productos")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<ProductoDTO>> listarTodosAdmin() {
+        return ResponseEntity.ok(productoService.listarTodosAdmin());
+    }
+
+    // ... endpoints de crear, editar, eliminar ...
 
     // 2. Ver detalle de un producto específico
     @GetMapping("/public/productos/{id}")
@@ -67,5 +82,15 @@ public class ProductoController {
         productoService.eliminar(id);
         return ResponseEntity.ok().build();
     }
+    
+ // ... otros endpoints ...
+
+    // 6. NUEVO: Cambiar estado (Activar/Desactivar)
+    @PutMapping("/admin/productos/{id}/estado")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ProductoDTO> cambiarEstado(@PathVariable Long id) {
+        return ResponseEntity.ok(productoService.cambiarEstado(id));
+    }
+
 	
 }

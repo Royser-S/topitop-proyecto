@@ -27,17 +27,14 @@ public class Inventario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relación con el Producto (Camisa)
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    // Relación con la Talla (M)
     @ManyToOne
     @JoinColumn(name = "talla_id", nullable = false)
     private Talla talla;
 
-    // Relación con el Color (Rojo)
     @ManyToOne
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
@@ -46,6 +43,6 @@ public class Inventario {
     private Integer stock;
     
     @Column(unique = true)
-    private String sku; // Código de barras
+    private String sku; 
 	
 }

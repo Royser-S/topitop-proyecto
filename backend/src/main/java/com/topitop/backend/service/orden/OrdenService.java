@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -137,6 +138,23 @@ public class OrdenService {
         Orden ordenGuardada = ordenRepository.save(orden);
         
         return convertirADTO(ordenGuardada);
+    }
+    
+ // NUEVO: Listar historial de compras del cliente (Para "Mis Pedidos")
+    @Transactional(readOnly = true)
+    public List<OrdenDTO> listarMisOrdenes(String emailUsuario) {
+        // Usamos el método que ya creaste en el Repository
+        return ordenRepository.findByUsuarioEmailOrderByFechaDesc(emailUsuario).stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+    
+ // NUEVO: Método para el ADMIN (Ver todas las ventas del sistema, las más nuevas primero)
+    @Transactional(readOnly = true)
+    public List<OrdenDTO> listarTodas() {
+        return ordenRepository.findAll(Sort.by(Sort.Direction.DESC, "fecha")).stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
 }

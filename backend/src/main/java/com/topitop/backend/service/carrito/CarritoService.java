@@ -43,13 +43,23 @@ public class CarritoService {
         Usuario usuario = usuarioRepository.findByEmail(emailUsuario)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
+     // ... dentro de agregarItem ...
+
         Inventario inventario = inventarioRepository.findById(request.getInventarioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado o agotado"));
 
-        // 2. Validar Stock
+        // 1. NUEVO: VALIDACIÓN DE ESTADO (El "Guardia de Seguridad")
+        // Si el producto está OFF o la Marca está OFF, prohibimos agregarlo.
+        if (!inventario.getProducto().getEstado() || !inventario.getProducto().getMarca().isEstado()) {
+            throw new RuntimeException("Lo sentimos, este producto ya no está disponible para la venta.");
+        }
+
+        // 2. Validar Stock (Esto ya lo tenías, lo dejamos igual)
         if (inventario.getStock() < request.getCantidad()) {
             throw new RuntimeException("Stock insuficiente. Solo quedan: " + inventario.getStock());
         }
+
+        // ... continúa la lógica de buscar carrito ...
 
         // 3. Buscar o Crear Carrito
         Carrito carrito = carritoRepository.findByUsuarioEmail(emailUsuario)
@@ -126,6 +136,11 @@ public class CarritoService {
             itemDto.setTalla(inv.getTalla().getValor());
             itemDto.setColor(inv.getColor().getNombre());
             itemDto.setColorHex(inv.getColor().getCodigoHex());
+
+            // NUEVO: Llenamos los datos de estado para el Frontend
+            itemDto.setProductoActivo(inv.getProducto().getEstado());
+            itemDto.setMarcaActiva(inv.getProducto().getMarca().isEstado());
+            itemDto.setStockActual(inv.getStock()); // Enviamos el stock real actual
             
             return itemDto;
         }).collect(Collectors.toList());

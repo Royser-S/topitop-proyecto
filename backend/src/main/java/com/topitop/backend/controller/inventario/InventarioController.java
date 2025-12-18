@@ -47,5 +47,12 @@ public class InventarioController {
     public ResponseEntity<InventarioDTO> guardarOActualizar(@Valid @RequestBody InventarioDTO dto) {
         return ResponseEntity.ok(inventarioService.guardar(dto));
     }
+    
+ // 3. Ver todo el inventario de golpe (Vista inicial de la tabla)
+    @GetMapping("/admin/inventario")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<InventarioDTO>> listarTodo() {
+        return ResponseEntity.ok(inventarioService.listarTodo());
+    }
 
 }

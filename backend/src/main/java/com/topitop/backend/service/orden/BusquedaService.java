@@ -29,11 +29,9 @@ public class BusquedaService {
                 .orElse(new TerminoBusqueda());
 
         if (tb.getId() == null) {
-            // Es nuevo
             tb.setTermino(terminoLimpio);
             tb.setCantidadBusquedas(1);
         } else {
-            // Ya existía, sumamos +1
             tb.setCantidadBusquedas(tb.getCantidadBusquedas() + 1);
         }
         
@@ -41,7 +39,6 @@ public class BusquedaService {
         repository.save(tb);
     }
 
-    // 2. OBTENER EL TOP (Para mostrar sugerencias)
     @Transactional(readOnly = true)
     public List<String> obtenerTendencias() {
         return repository.findTop5MasBuscados().stream()

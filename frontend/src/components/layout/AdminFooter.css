@@ -1,0 +1,56 @@
+/* =========================================
+   ESTILOS BASE (MODO CLARO)
+========================================= */
+
+.text-gradient-primary {
+    background: linear-gradient(45deg, #0d6efd, #0a58ca);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-hover {
+    transition: transform 0.2s ease;
+}
+.logo-hover:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* --- NUEVO: ESTILOS PARA EL BOTÓN GITHUB --- */
+.github-link {
+    color: #212529; /* Negro GitHub */
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.github-link:hover {
+    transform: translateY(-2px); /* Pequeño salto al pasar el mouse */
+    color: #0d6efd; /* Azul al hacer hover */
+}
+
+/* LOGOS CAPIBARA */
+.capy-white { display: none; }
+.capy-black { display: inline-block; }
+
+
+/* =========================================
+   ESTILOS MODO OSCURO
+========================================= */
+body.dark-mode .admin-footer {
+    background-color: #1a1d20 !important;
+    border-color: #2c3034 !important;
+}
+
+body.dark-mode .admin-footer .text-muted {
+    color: #aeb0b4 !important;
+}
+
+/* --- NUEVO: GITHUB EN MODO OSCURO --- */
+body.dark-mode .github-link {
+    color: #f8f9fa; /* Blanco */
+}
+body.dark-mode .github-link:hover {
+    color: #0d6efd; /* Azul al hover */
+}
+
+/* LOGOS CAPIBARA DARK */
+body.dark-mode .capy-black { display: none; }
+body.dark-mode .capy-white { display: inline-block; }
