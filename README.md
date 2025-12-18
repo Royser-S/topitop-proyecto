@@ -152,11 +152,11 @@ La API está documentada con **Swagger UI**. Algunos endpoints clave:
 
 ## 👥 Equipo de Desarrollo
 
-Este proyecto fue diseñado y construido con 🤍 por:
+Este proyecto fue diseñado y construido por:
 
-* **Royser** - *Frontend & Integración*
-* **Patrick** - *Backend & Base de Datos*
-* **Benner** - *QA & Documentación*
+* **Royser** - 
+* **Patrick** - 
+* **Benner** -
 
 ---
 
