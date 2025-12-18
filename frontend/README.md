@@ -115,11 +115,11 @@ Sigue estos pasos para correr el proyecto localmente:
 
 ## 👥 Equipo de Desarrollo
 
-Este proyecto fue diseñado y construido con 🤍 por:
+Este proyecto fue diseñado y construido por:
 
-* **Royser** - *Frontend & Integración*
-* **Patrick** - *Backend & Base de Datos*
-* **Benner** - *QA & Documentación*
+* **Royser** - 
+* **Patrick** - 
+* **Benner** - 
 
 ---
 
