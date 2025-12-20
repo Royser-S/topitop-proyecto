@@ -3,11 +3,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer className="tfooter">
-      <div className="tfooter__top">
-        <button className="tfooter__more" type="button">
-          VER MÁS <span aria-hidden="true">↓</span>
-        </button>
-      </div>
+  
 
       <div className="tfooter__line" />
 
