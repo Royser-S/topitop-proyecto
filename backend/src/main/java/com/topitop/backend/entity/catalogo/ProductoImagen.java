@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -32,6 +33,7 @@ public class ProductoImagen {
 
     @ManyToOne
     @JoinColumn(name = "producto_id")
+    @ToString.Exclude // 🚫 CORTA LA RELACIÓN INVERSA
     private Producto producto;
 	
 }

@@ -40,18 +40,17 @@ public class ProductoDTO {
 
     private Boolean destacado;
     private Boolean estado;
-
+    
     @NotNull(message = "La marca es obligatoria")
     private Integer marcaId;
 
     @NotNull(message = "La categoría es obligatoria")
     private Long categoriaId;
 
-    // Validamos que si mandan imágenes, no manden una lista vacía []
-    // "Size" aquí cuenta elementos de la lista, no caracteres
+    // ESTO DEBE ESTAR DESCOMENTADO PARA QUE RECIBA LAS URLS
     @Size(max = 5, message = "Máximo 5 imágenes por producto")
     private List<String> imagenes;
-    
+    // ...
  // 👇 ESTO ES LO QUE TE FALTA AGREGAR 👇
     private String nombreMarca;
     private String nombreCategoria;

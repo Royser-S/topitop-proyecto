@@ -12,6 +12,9 @@ const CategoriasPage = () => {
     const [descripcion, setDescripcion] = useState('');
     const [imagenUrl, setImagenUrl] = useState('');
     
+    // 1. NUEVO: Estado para el Padre
+    const [categoriaPadreId, setCategoriaPadreId] = useState('');
+
     const [mensaje, setMensaje] = useState({ tipo: '', texto: '' });
 
     // --- CARGAR DATOS ---
@@ -29,45 +32,42 @@ const CategoriasPage = () => {
     const cargarDatosEdicion = (cat) => {
         setIdEditar(cat.id);
         setNombre(cat.nombre);
-        setDescripcion(cat.descripcion || ''); // Evita error si es null
+        setDescripcion(cat.descripcion || '');
         setImagenUrl(cat.imagenUrl || '');
+        // 2. Cargamos el padre si existe
+        setCategoriaPadreId(cat.categoriaPadreId || '');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const limpiarFormulario = () => {
         setIdEditar(null); setNombre(''); setDescripcion(''); setImagenUrl('');
+        setCategoriaPadreId(''); // 3. Limpiamos el padre
+        setMensaje({ tipo: '', texto: '' });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Preparamos el objeto tal cual lo espera CategoriaDTO.java
             const categoriaDTO = { 
                 nombre, 
                 descripcion, 
-                imagenUrl
+                imagenUrl,
+                // 4. LÓGICA: Si está vacío es null (categoría base). Si tiene ID, es subcategoría.
+                categoriaPadreId: categoriaPadreId === '' ? null : categoriaPadreId
             };
-
-            // Si estamos editando, le agregamos el ID
-            if (idEditar) {
-                categoriaDTO.id = idEditar;
-            }
             
-            // Llamamos a guardar (Tu backend decide si es create o update)
+            if (idEditar) categoriaDTO.id = idEditar;
+            
             await categoriaService.guardar(categoriaDTO);
             
-            setMensaje({ 
-                tipo: 'success', 
-                texto: idEditar ? '✏️ Categoría actualizada' : '✅ Categoría creada' 
-            });
-
-            limpiarFormulario();
+            setMensaje({ tipo: 'success', texto: idEditar ? 'Categoría actualizada' : 'Categoría creada' });    
+            limpiarFormulario();    
             recargarTabla();
-        } catch (error) {
+        } catch (error) { 
             console.log(error);
-            setMensaje({ tipo: 'danger', texto: 'Error al guardar la categoría' });
+            setMensaje({ tipo: 'danger', texto: 'Error al guardar categoría' });
         }
-        setTimeout(() => setMensaje({ tipo: '', texto: '' }), 4000);
+        setTimeout(() => setMensaje({ tipo: '', texto: '' }), 3000);
     };
 
     return (
@@ -89,6 +89,12 @@ const CategoriasPage = () => {
                         nombre={nombre} setNombre={setNombre}
                         descripcion={descripcion} setDescripcion={setDescripcion}
                         imagenUrl={imagenUrl} setImagenUrl={setImagenUrl}
+                        
+                        // 5. PASAMOS LAS NUEVAS PROPS
+                        categoriaPadreId={categoriaPadreId}
+                        setCategoriaPadreId={setCategoriaPadreId}
+                        listaCategorias={categorias} // <--- Pasamos la lista para llenar el select
+                        
                         idEditar={idEditar}
                         limpiarFormulario={limpiarFormulario}
                         mensaje={mensaje}
@@ -99,7 +105,7 @@ const CategoriasPage = () => {
                     <CategoriaTabla 
                         categorias={categorias}
                         cargarDatosEdicion={cargarDatosEdicion}
-                    />
+                    />  
                 </div>
             </div>
         </div>

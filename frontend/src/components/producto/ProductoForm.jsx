@@ -4,7 +4,6 @@ const ProductoForm = ({
     idEditar, limpiarFormulario, mensaje 
 }) => {
 
-    // Función genérica para manejar los cambios en los inputs
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setForm({
@@ -35,64 +34,65 @@ const ProductoForm = ({
                 </div>
 
                 <div className="row g-2 mb-3">
-                    <div className="col-md-6">
-                        <div className="form-floating">
-                            <input 
-                                type="number" step="0.01" className="form-control" id="precioProd"
-                                name="precio" value={form.precio} onChange={handleChange} required 
-                                placeholder="0.00"
-                            />
-                            <label htmlFor="precioProd">Precio (S/)</label>
-                        </div>
+                    <div className="col-md-6 form-floating">
+                        <input 
+                            type="number" className="form-control rounded-3" id="precioProd" 
+                            name="precio" value={form.precio} onChange={handleChange} required step="0.01" 
+                            placeholder="0.00"
+                        />
+                        <label htmlFor="precioProd">Precio (S/)</label>
                     </div>
-                    <div className="col-md-6">
-                        <div className="form-floating">
-                            <input 
-                                type="number" step="0.01" className="form-control" id="precioDesc"
-                                name="precioDescuento" value={form.precioDescuento} onChange={handleChange} 
-                                placeholder="0.00"
-                            />
-                            <label htmlFor="precioDesc">Precio Oferta (Opcional)</label>
-                        </div>
+                    <div className="col-md-6 form-floating">
+                        <input 
+                            type="number" className="form-control rounded-3" id="descProd" 
+                            name="precioDescuento" value={form.precioDescuento} onChange={handleChange} step="0.01" 
+                            placeholder="0.00"
+                        />
+                        <label htmlFor="descProd">Precio Oferta (Opcional)</label>
                     </div>
                 </div>
 
-                {/* 2. CLASIFICACIÓN (Selects) */}
                 <div className="row g-2 mb-3">
                     <div className="col-md-6">
                         <label className="form-label small fw-bold text-muted">Marca</label>
-                        <select className="form-select py-2" name="marcaId" value={form.marcaId} onChange={handleChange} required>
-                            <option value="">-- Seleccionar --</option>
-                            {marcas.map(m => (
-                                <option key={m.id} value={m.id}>{m.nombre}</option>
-                            ))}
+                        <select className="form-select" name="marcaId" value={form.marcaId} onChange={handleChange} required>
+                            <option value="">Seleccione...</option>
+                            {marcas.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
                         </select>
                     </div>
                     <div className="col-md-6">
                         <label className="form-label small fw-bold text-muted">Categoría</label>
-                        <select className="form-select py-2" name="categoriaId" value={form.categoriaId} onChange={handleChange} required>
-                            <option value="">-- Seleccionar --</option>
-                            {categorias.map(c => (
-                                <option key={c.id} value={c.id}>{c.nombre}</option>
-                            ))}
+                        <select className="form-select" name="categoriaId" value={form.categoriaId} onChange={handleChange} required>
+                            <option value="">Seleccione...</option>
+                            {categorias.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
                         </select>
                     </div>
                 </div>
 
-                {/* 3. DETALLES */}
                 <div className="mb-3">
                     <label className="form-label small fw-bold text-muted">Descripción</label>
-                    <textarea className="form-control" rows="3" name="descripcion" value={form.descripcion} onChange={handleChange}></textarea>
+                    <textarea 
+                        className="form-control" name="descripcion" rows="2" 
+                        value={form.descripcion} onChange={handleChange} required 
+                    ></textarea>
                 </div>
 
+                {/* CAMPO DE IMÁGENES */}
                 <div className="mb-3">
-                    <label className="form-label small fw-bold text-muted">URLs de Imágenes (Separadas por comas)</label>
-                    <input 
-                        type="text" className="form-control" name="imagenesTexto" 
-                        value={form.imagenesTexto} onChange={handleChange} 
-                        placeholder="https://img1.jpg, https://img2.jpg" 
+                    <label className="form-label small fw-bold text-muted">
+                        <i className="bi bi-images me-1"></i> Imágenes del Producto
+                    </label>
+                    <textarea 
+                        className="form-control" 
+                        name="imagenesTexto" 
+                        rows="3" 
+                        value={form.imagenesTexto} 
+                        onChange={handleChange} 
+                        placeholder="Pega las URLs separadas por comas. Ej: https://img1.jpg, https://img2.jpg" 
                     />
-                    <div className="form-text small">Copia y pega las URLs de tus imágenes aquí.</div>
+                    <div className="form-text small">
+                        Se mostrarán en carrusel. La primera será la portada.
+                    </div>
                 </div>
 
                 <div className="form-check form-switch mb-4">
@@ -104,7 +104,13 @@ const ProductoForm = ({
                     <button type="submit" className={`btn fw-bold py-2 shadow-sm ${idEditar ? 'btn-warning' : 'btn-primary'}`}>
                         {idEditar ? 'Actualizar Producto' : 'Guardar Producto'}
                     </button>
-                    {idEditar && <button type="button" className="btn btn-outline-secondary btn-sm" onClick={limpiarFormulario}>Cancelar</button>}
+                    
+                    {/* AQUÍ ESTABA EL ERROR: Quitamos las barras invertidas \ */}
+                    {idEditar && (
+                        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={limpiarFormulario}>
+                            Cancelar
+                        </button>
+                    )}
                 </div>
             </form>
         </div>

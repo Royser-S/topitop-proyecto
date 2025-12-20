@@ -20,6 +20,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -64,6 +65,7 @@ public class Producto {
     // Relación con las imágenes
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("producto") // <--- 2. AGREGAR ESTO
+    @ToString.Exclude // 🚫 EVITA QUE AL IMPRIMIR PRODUCTO SE IMPRIMAN LAS IMÁGENES ETERNAMENTE
     private List<ProductoImagen> imagenes;
 
     @PrePersist

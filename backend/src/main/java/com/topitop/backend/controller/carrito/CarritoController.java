@@ -32,6 +32,8 @@ public class CarritoController {
         // principal.getName() devuelve el email del usuario logueado
         return ResponseEntity.ok(carritoService.obtenerCarrito(principal.getName()));
     }
+    
+    
 
     // 2. AGREGAR PRODUCTO AL CARRITO
     @PostMapping("/items")
