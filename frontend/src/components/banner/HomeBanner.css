@@ -1,8 +1,11 @@
 .home-banner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 420px;
   width: 100%;
+
+  /* clave: altura responsiva tipo ecommerce */
+  min-height: 420px;
+  height: clamp(360px, 42vw, 520px);
 }
 
 .banner-item {
@@ -13,11 +16,12 @@
   overflow: hidden;
 }
 
+/* overlay */
 .banner-item::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.28);
 }
 
 .banner-content {
@@ -27,48 +31,69 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 60px;
-  color: white;
+
+  /* padding responsivo */
+  padding: clamp(18px, 4vw, 64px);
+  color: #fff;
 }
 
-.banner-content h2 {
-  font-size: 36px;
+/* Texto Mujer / Hombre más pequeño */
+.banner-content h2{
+  font-size: clamp(20px, 2.2vw, 32px);
   font-weight: 600;
-  margin-bottom: 16px;
 }
+
 
 .banner-content button {
   width: fit-content;
   padding: 10px 22px;
-  background: black;
-  color: white;
+  background: #0b0b0b;
+  color: #fff;
   border: none;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
 
 .banner-content button:hover {
-  background: #333;
+  background: #1a1a1a;
+  transform: translateY(-1px);
 }
 
 /* IMÁGENES */
 .mujer {
-  background-image: url("/public/img/mujer.png");
+  background-image: url("/img/mujer.png");
 }
 
 .hombre {
-  background-image: url("/public/img/hombre.png");
+  background-image: url("/img/hombre.png");
 }
 
 /* RESPONSIVE */
+@media (max-width: 992px) {
+  .home-banner {
+    height: clamp(320px, 50vw, 480px);
+  }
+}
+
 @media (max-width: 768px) {
   .home-banner {
     grid-template-columns: 1fr;
     height: auto;
+    min-height: 0;
   }
 
   .banner-item {
-    height: 300px;
+    height: 320px;
+  }
+
+  .banner-content {
+    padding: 22px;
   }
 }
+/* Hombre alineado a la derecha */
+.hombre .banner-content{
+  align-items: flex-end;
+  text-align: right;
+}
+
