@@ -2,6 +2,8 @@ const CategoriaForm = ({
     handleSubmit, nombre, setNombre, 
     descripcion, setDescripcion,
     imagenUrl, setImagenUrl,
+    // RECIBIMOS LAS NUEVAS PROPS
+    categoriaPadreId, setCategoriaPadreId, listaCategorias,
     idEditar, limpiarFormulario, mensaje 
 }) => {
     return (
@@ -24,16 +26,38 @@ const CategoriaForm = ({
                     {/* NOMBRE */}
                     <div className="form-floating mb-3">
                         <input 
-                            type="text" className="form-control rounded-3" id="nombreCatInput"
-                            placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} required
+                            type="text" className="form-control rounded-3" id="nomCatInput"
+                            placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} required 
                         />
-                        <label htmlFor="nombreCatInput">Nombre</label>
+                        <label htmlFor="nomCatInput">Nombre Categoría</label>
                     </div>
 
-                    {/* DESCRIPCIÓN (Tu Java lo tiene) */}
+                    {/* 👇 NUEVO: SELECTOR DE PADRE 👇 */}
+                    <div className="form-floating mb-3">
+                        <select 
+                            className="form-select rounded-3" 
+                            id="catPadreInput"
+                            value={categoriaPadreId} 
+                            onChange={(e) => setCategoriaPadreId(e.target.value)}
+                        >
+                            <option value="">-- Es Categoría Principal (Sin Padre) --</option>
+                            
+                            {/* Renderizamos las categorías existentes */}
+                            {listaCategorias && listaCategorias
+                                .filter(cat => cat.id !== idEditar) // Evitar que sea padre de sí misma
+                                .map(cat => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {cat.nombre}
+                                    </option>
+                            ))}
+                        </select>
+                        <label htmlFor="catPadreInput">Categoría Padre (Opcional)</label>
+                    </div>
+
+                    {/* DESCRIPCIÓN */}
                     <div className="form-floating mb-3">
                         <textarea 
-                            className="form-control rounded-3" placeholder="Desc" id="descInput" style={{height: '100px'}}
+                            className="form-control rounded-3" placeholder="Desc" id="descInput" style={{ height: '100px' }}
                             value={descripcion} onChange={(e) => setDescripcion(e.target.value)}
                         ></textarea>
                         <label htmlFor="descInput">Descripción</label>

@@ -103,9 +103,8 @@ const DashboardPage = () => {
                     </div>
 
                     {/* B. Tarjeta de Tendencias (Lo más buscado) */}
-                    <div>
-                        <TendenciasCard datosGrafico={datosTendencias} />
-                    </div>
+                    {/* 👇 ELIMINAMOS EL <div> QUE ENVOLVÍA ESTO 👇 */}
+                    <TendenciasCard datosGrafico={datosTendencias} /> 
 
                 </div>
             </div>

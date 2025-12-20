@@ -32,43 +32,44 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 1. Obtener la cabecera de autorización
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
 
-        // 2. Si no tiene token o no empieza con "Bearer ", dejar pasar (el SecurityConfig lo bloqueará si es necesario)
+        // 1. Si no hay token, dejamos pasar la petición (SecurityConfig decidirá si rechaza)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 3. Extraer el token (quitando la palabra "Bearer ")
-        jwt = authHeader.substring(7);
-        
-        // 4. Extraer el email del token
-        userEmail = jwtService.extractUsername(jwt);
+        try {
+            // 2. Intentamos leer el token
+            jwt = authHeader.substring(7);
+            userEmail = jwtService.extractUsername(jwt);
 
-        // 5. Si hay email y el usuario no está autenticado todavía...
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Buscamos al usuario en la BD
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            // 3. Validamos
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            // 6. Si el token es válido, le damos el pase
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                
-                // GUARDAMOS LA AUTENTICACIÓN EN EL CONTEXTO
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (Exception e) {
+            // 🚨 AQUÍ ESTÁ LA MAGIA:
+            // Si el token está mal (Firma, Expirado, Basura), NO EXPLOTAMOS.
+            // Solo imprimimos un aviso y dejamos que la petición siga. 
+            // Si iba al catálogo público, FUNCIONARÁ. Si iba a /admin, dará 403 Forbidden (correcto).
+            System.out.println("⚠️ Token inválido o expirado ignorado: " + e.getMessage());
         }
-        
-        // 7. Continuar con la siguiente etapa del filtro
+
+        // 4. Continuar
         filterChain.doFilter(request, response);
     }
 

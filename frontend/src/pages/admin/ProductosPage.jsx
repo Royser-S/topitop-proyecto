@@ -15,7 +15,8 @@ const ProductosPage = () => {
 
     const [form, setForm] = useState({
         nombre: '', precio: '', precioDescuento: '', descripcion: '', 
-        marcaId: '', categoriaId: '', imagenesTexto: '', destacado: false
+        marcaId: '', categoriaId: '', imagenesTexto: '', destacado: false,
+        especificaciones: ''
     });
     const [idEditar, setIdEditar] = useState(null);
     const [mensaje, setMensaje] = useState({ tipo: '', texto: '' });
@@ -32,59 +33,27 @@ const ProductosPage = () => {
             setMarcas(marcasData);
             setCategorias(catsData);
         } catch (error) {
-            console.error("Error cargando datos:", error);
+            console.error("Error cargando datos", error);
         }
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { cargarDatos(); }, []);
 
-    // --- GUARDAR ---
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const imagenesArray = form.imagenesTexto 
-                ? form.imagenesTexto.split(',').map(url => url.trim()).filter(url => url !== '') 
-                : [];
-
-            const productoDTO = { ...form, imagenes: imagenesArray };
-            if (idEditar) productoDTO.id = idEditar;
-
-            await productoService.guardar(productoDTO);
-            
-            setMensaje({ tipo: 'success', texto: idEditar ? 'Producto actualizado' : 'Producto creado' });
-            limpiarFormulario();
-            cargarDatos(); 
-        } catch (error) {
-            console.log(error);
-            setMensaje({ tipo: 'danger', texto: 'Error al guardar' });
-        }
-        setTimeout(() => setMensaje({ tipo: '', texto: '' }), 4000);
-    };
-
-    // --- CAMBIAR ESTADO (Reemplaza a eliminar) ---
-    const handleToggleEstado = async (prod) => {
-        try {
-            await productoService.toggleEstado(prod.id);
-            cargarDatos(); 
-        } catch (error) { 
-            console.log(error);
-            alert("Error al cambiar estado"); 
-        }
-    };
-
-    // --- UTILS ---
+    // --- CARGAR DATOS PARA EDICIÓN (Transformar Array -> Texto) ---
     const cargarDatosEdicion = (prod) => {
         setIdEditar(prod.id);
         setForm({
             nombre: prod.nombre,
             precio: prod.precio,
             precioDescuento: prod.precioDescuento || '',
-            descripcion: prod.descripcion || '',
-            marcaId: prod.marcaId || '', 
-            categoriaId: prod.categoriaId || '',
-            imagenesTexto: prod.imagenes ? prod.imagenes.join(', ') : '',
-            destacado: prod.destacado || false
+            descripcion: prod.descripcion,
+            especificaciones: prod.especificaciones || '',
+            marcaId: prod.marcaId,
+            categoriaId: prod.categoriaId,
+            destacado: prod.destacado,
+            // 📸 TRUCO: Convertimos Array ["url1", "url2"] a Texto "url1, url2"
+            imagenesTexto: prod.imagenes ? prod.imagenes.join(', ') : '' 
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -93,16 +62,72 @@ const ProductosPage = () => {
         setIdEditar(null);
         setForm({
             nombre: '', precio: '', precioDescuento: '', descripcion: '', 
-            marcaId: '', categoriaId: '', imagenesTexto: '', destacado: false
+            marcaId: '', categoriaId: '', imagenesTexto: '', destacado: false,
+            especificaciones: ''
         });
+        setMensaje({ tipo: '', texto: '' });
+    };
+
+    // --- GUARDAR (Validación y Transformación) ---
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // A. Convertir precios a números
+        const precioReal = parseFloat(form.precio);
+        const precioDesc = form.precioDescuento ? parseFloat(form.precioDescuento) : null;
+
+        // 🛑 B. VALIDACIÓN DE PRECIO
+        if (precioDesc !== null && precioDesc >= precioReal) {
+            setMensaje({ 
+                tipo: 'danger', 
+                texto: '⛔ ERROR: El precio de descuento debe ser MENOR al precio normal.' 
+            });
+            return; // Detener ejecución
+        }
+
+        // C. Procesar Imágenes (Texto -> Array)
+        const imagenesArray = form.imagenesTexto
+            ? form.imagenesTexto.split(',').map(url => url.trim()).filter(url => url !== "")
+            : [];
+
+        try {
+            const productoDTO = {
+                ...form,
+                precio: precioReal,
+                precioDescuento: precioDesc,
+                imagenes: imagenesArray // Enviamos el array
+            };
+            
+            delete productoDTO.imagenesTexto; // Borramos el temporal
+
+            if (idEditar) productoDTO.id = idEditar;
+
+            await productoService.guardar(productoDTO);
+            
+            setMensaje({ tipo: 'success', texto: idEditar ? 'Producto actualizado' : 'Producto creado' });
+            limpiarFormulario();
+            cargarDatos();
+        } catch (error) {
+            console.error(error);
+            const msg = error.response?.data?.message || 'Error al guardar producto.';
+            setMensaje({ tipo: 'danger', texto: msg });
+        }
+        setTimeout(() => setMensaje({ tipo: '', texto: '' }), 4000);
+    };
+
+    const handleToggleEstado = async (prod) => {
+        try {
+            await productoService.toggleEstado(prod.id);
+            cargarDatos();
+        } catch (error) { console.error(error); }
     };
 
     return (
         <div className="container py-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="mb-4 fw-bold">
-                <i className="bi bi-box-seam-fill me-2"></i>Gestión de Productos</h2>
-                {/* BOTÓN DE EXPORTACIÓN */}
+                <h2 className="mb-4 fw-bold">
+                    <i className="bi bi-box-seam-fill me-2"></i>Gestión de Productos
+                </h2>
                 <button 
                     className="btn btn-outline-success d-flex align-items-center gap-2 shadow-sm"
                     onClick={() => exportarProductosExcel(productos)}

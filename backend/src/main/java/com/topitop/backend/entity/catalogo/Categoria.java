@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -34,13 +35,13 @@ public class Categoria {
     @Column(name = "imagen_url")
     private String imagenUrl;
 
-    // Relación con el Padre (Muchos hijos, un padre)
     @ManyToOne
     @JoinColumn(name = "categoria_padre_id")
+    @ToString.Exclude // 🚫 EVITA EL BUCLE CON EL PADRE
     private Categoria categoriaPadre;
 
-    // Relación con los Hijos (Una categoría, muchos subcategorías)
     @OneToMany(mappedBy = "categoriaPadre")
+    @ToString.Exclude // 🚫 EVITA EL BUCLE CON LOS HIJOS
     private List<Categoria> subCategorias;
 	
 }

@@ -30,6 +30,8 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaService.listarCategoriasPrincipales());
     }
 
+    
+    
     // ADMIN: Listar TODAS planas (para el combo box al crear producto)
     @GetMapping("/admin/categorias")
     @PreAuthorize("hasAuthority('ADMIN')")

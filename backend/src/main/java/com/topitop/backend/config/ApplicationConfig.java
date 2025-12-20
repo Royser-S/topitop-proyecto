@@ -1,6 +1,10 @@
 package com.topitop.backend.config;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +35,28 @@ public class ApplicationConfig {
     
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+
+        // Le enseñamos a convertir de Producto (Entidad) a ProductoDTO
+        // Específicamente: Extraer solo las URLs de la lista de objetos ProductoImagen
+        modelMapper.typeMap(com.topitop.backend.entity.catalogo.Producto.class, com.topitop.backend.dto.catalogo.ProductoDTO.class)
+            .addMappings(mapper -> {
+                mapper.using(ctx -> {
+                    @SuppressWarnings("unchecked")
+                    List<com.topitop.backend.entity.catalogo.ProductoImagen> imagenes = 
+                        (List<com.topitop.backend.entity.catalogo.ProductoImagen>) ctx.getSource();
+                    
+                    if (imagenes == null) return new ArrayList<>();
+
+                    // Convertimos [ObjetoImagen1, ObjetoImagen2] -> ["url1", "url2"]
+                    return imagenes.stream()
+                            .map(img -> img.getUrlImagen())
+                            .collect(Collectors.toList());
+                            
+                }).map(com.topitop.backend.entity.catalogo.Producto::getImagenes, com.topitop.backend.dto.catalogo.ProductoDTO::setImagenes);
+            });
+
+        return modelMapper;
     }
 
     @Bean
