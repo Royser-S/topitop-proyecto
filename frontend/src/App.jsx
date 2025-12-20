@@ -15,6 +15,7 @@ import ProductosPage from './pages/admin/ProductosPage';
 import InventarioPage from './pages/admin/InventarioPage';
 import VentasPage from './pages/admin/VentasPage';
 import DashboardPage from './pages/admin/DashboardPage';
+import Catalogo from './pages/cliente/Catalogo';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         {/* Ruta Pública */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/Catalogo" element={<Catalogo />} />
         
         {/* Rutas Privadas (Admin) */}
         <Route path="/admin" element={<AdminLayout />}>
@@ -36,7 +38,7 @@ function App() {
         </Route>
 
         {/* Redirección por defecto */}
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/Catalogo" />} />
       </Routes>
     </BrowserRouter>
   );

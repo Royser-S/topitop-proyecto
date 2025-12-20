@@ -1,0 +1,125 @@
+.filtersbar {
+  height: 46px;
+  width: 100%;
+  background: #0b0b0b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.filtersbar__left,
+.filtersbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filtersbar__sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.filtersbar__btn {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit; 
+}
+
+
+.filtersbar__btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 4px;
+}
+
+.filtersbar__btn--filters {
+  font-weight: 600;
+}
+
+.filtersbar__caret {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.filtersbar__icon {
+  font-size: 15px;
+  opacity: 0.95;
+}
+
+
+.filtersbar__view {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 6px;
+}
+
+.filtersbar__viewbtn {
+  background: transparent !important;
+  border: none !important;
+  color: #fff;
+  width: 34px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0;
+}
+
+.filtersbar__viewbtn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+
+.filtersbar__bars {
+  width: 18px;
+  height: 14px;
+  display: inline-block;
+  background: linear-gradient(#fff, #fff) 0 0 / 100% 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 6px / 100% 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 12px / 100% 2px no-repeat;
+  opacity: 0.95;
+}
+
+.filtersbar__grid {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: linear-gradient(#fff, #fff) 0 0 / 7px 7px no-repeat,
+    linear-gradient(#fff, #fff) 9px 0 / 7px 7px no-repeat,
+    linear-gradient(#fff, #fff) 0 9px / 7px 7px no-repeat,
+    linear-gradient(#fff, #fff) 9px 9px / 7px 7px no-repeat;
+  opacity: 0.95;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .filtersbar {
+    overflow-x: auto;
+    scrollbar-width: none; 
+  }
+  .filtersbar::-webkit-scrollbar {
+    display: none; 
+  }
+  .filtersbar__left, 
+  .filtersbar__right {
+    flex: 0 0 auto;
+  }
+}

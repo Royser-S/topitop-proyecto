@@ -1,0 +1,18 @@
+.pgrid{
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* responsive como e-commerce */
+@media (max-width: 1200px){
+  .pgrid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px){
+  .pgrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px){
+  .pgrid{ grid-template-columns: 1fr; }
+}
