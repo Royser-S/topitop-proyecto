@@ -13,49 +13,52 @@ import com.topitop.backend.service.orden.OrdenService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/admin/ordenes") // Ruta base solo para admins
+@RequestMapping("/api") // 1. CAMBIO: Ruta base genérica para no bloquear a nadie
 @RequiredArgsConstructor
 public class OrdenController {
 	
 	private final OrdenService ordenService;
 
-
     // ==========================================
-    // 🛒 RUTAS DE CLIENTE (Para la Tienda)
+    // 🛒 RUTAS DE CLIENTE (Públicas o solo login normal)
     // ==========================================
 
-    // 1. FINALIZAR COMPRA (El botón "Pagar")
-    // POST /api/cliente/ordenes?direccion=Av. Larco 123
+    // 1. FINALIZAR COMPRA
+    // URL Final: POST /api/cliente/ordenes
     @PostMapping("/cliente/ordenes")
     public ResponseEntity<OrdenDTO> crearOrden(
             @RequestParam(defaultValue = "Dirección Principal") String direccion, 
             Principal principal) {
-        
-        // Aquí llamamos a TU método del Service que ya tienes listo
         return ResponseEntity.ok(ordenService.generarOrden(principal.getName(), direccion));
     }
-	
-    // 1. Listar el historial completo de ventas
-    @GetMapping
+
+    // 2. VER MIS COMPRAS
+    // URL Final: GET /api/cliente/ordenes/mis-compras
+    @GetMapping("/cliente/ordenes/mis-compras")
+    public ResponseEntity<List<OrdenDTO>> misCompras(Principal principal) {
+        return ResponseEntity.ok(ordenService.listarMisOrdenes(principal.getName()));
+    }
+
+    // ==========================================
+    // 👮 RUTAS DE ADMIN (Protegidas con PreAuthorize)
+    // ==========================================
+
+    // 3. LISTAR TODAS (Para tu panel)
+    // URL Final: GET /api/admin/ordenes
+    @GetMapping("/admin/ordenes")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<OrdenDTO>> listarTodas() {
         return ResponseEntity.ok(ordenService.listarTodas());
     }
 
-    // 2. Cambiar estado (Ej: De 'PAGADO' a 'ENVIADO')
-    @PutMapping("/{id}/estado")
+    // 4. CAMBIAR ESTADO
+    // URL Final: PUT /api/admin/ordenes/{id}/estado
+    @PutMapping("/admin/ordenes/{id}/estado")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<OrdenDTO> cambiarEstado(
             @PathVariable Long id, 
             @RequestParam String nuevoEstado) {
         return ResponseEntity.ok(ordenService.cambiarEstado(id, nuevoEstado));
-    }
-    
-
-    @GetMapping("/cliente/ordenes/mis-compras")
-    public ResponseEntity<List<OrdenDTO>> misCompras(Principal principal) {
-        // principal.getName() obtiene el email del token JWT automáticamente
-        return ResponseEntity.ok(ordenService.listarMisOrdenes(principal.getName()));
     }
 
 }
