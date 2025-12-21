@@ -61,8 +61,7 @@ export const generarBoletaPDF = (orden) => {
     // 4. TABLA DE PRODUCTOS
     const columnas = [
         { header: 'PRODUCTO', dataKey: 'producto' },
-        { header: 'TALLA', dataKey: 'talla' },
-        { header: 'CANT.', dataKey: 'cantidad' },
+        { header: 'TALLA / COLOR', dataKey: 'talla' }, // Unimos para ahorrar espacio        { header: 'CANT.', dataKey: 'cantidad' },
         { header: 'P. UNIT.', dataKey: 'precio' },
         { header: 'SUBTOTAL', dataKey: 'subtotal' },
     ];
@@ -71,11 +70,12 @@ export const generarBoletaPDF = (orden) => {
         const precio = Number(item.precioUnitario || 0);
         const cantidad = Number(item.cantidad || 0);
         const subtotal = item.subtotal || (precio * cantidad);
+        const txtTalla = item.nombreTalla || item.talla?.valor || '-';
+        const txtColor = item.nombreColor || item.color?.nombre || '-';
         
         return {
-            producto: (item.producto?.nombre || item.nombreProducto || 'Item').substring(0, 25), // Recortar si es muy largo
-            talla: `${item.talla?.valor || '-'} / ${item.color?.nombre || '-'}`,
-            cantidad: cantidad,
+            producto: (item.producto?.nombre || item.nombreProducto || 'Item').substring(0, 25),
+            talla: `${txtTalla} / ${txtColor}`, 
             precio: `S/ ${precio.toFixed(2)}`,
             subtotal: `S/ ${subtotal.toFixed(2)}`
         };

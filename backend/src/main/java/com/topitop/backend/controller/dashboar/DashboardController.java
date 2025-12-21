@@ -23,9 +23,12 @@ public class DashboardController {
 
     @GetMapping("/resumen")
     public ResponseEntity<DashboardDTO> obtenerResumen(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fin) {
-        
+    		// ✅ CORRECTO: Las anotaciones van AQUÍ, en el controlador
+            @RequestParam(name = "inicio", required = false) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            
+            @RequestParam(name = "fin", required = false) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fin) {
         return ResponseEntity.ok(dashboardService.obtenerResumen(inicio, fin));
     }
 

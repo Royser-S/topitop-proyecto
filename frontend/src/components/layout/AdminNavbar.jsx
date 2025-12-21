@@ -120,18 +120,16 @@ const AdminNavbar = ({ darkMode, toggleTheme, bajoStockCount, notificaciones }) 
                                                         <div className="d-flex justify-content-between align-items-center">
                                                             {/* Accedemos a noti.producto.nombre */}
                                                             <span className="text-dark small fw-bold text-truncate" style={{ maxWidth: '180px' }}>
-                                                                {noti.producto?.nombre || 'Producto sin nombre'}
+                                                                {noti.nombreProducto || 'Producto sin nombre'}
                                                             </span>
                                                             <span className="badge bg-danger">{noti.stock} unids.</span>
                                                         </div>
                                                         <div className="d-flex gap-2">
                                                             {/* Accedemos a noti.talla.valor y noti.color.nombre */}
                                                             <span className="text-muted extra-small">
-                                                                <i className="bi bi-ruler me-1"></i>{noti.talla?.valor}
-                                                            </span>
+                                                                <i className="bi bi-ruler me-1"></i>{noti.nombreTalla}                                                            </span>
                                                             <span className="text-muted extra-small">
-                                                                <i className="bi bi-palette me-1"></i>{noti.color?.nombre}
-                                                            </span>
+                                                                <i className="bi bi-palette me-1"></i>{noti.nombreColor}                                                            </span>
                                                         </div>
                                                     </div>
                                                 </Link>

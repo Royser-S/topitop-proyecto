@@ -56,8 +56,8 @@ public class OrdenController {
     @PutMapping("/admin/ordenes/{id}/estado")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<OrdenDTO> cambiarEstado(
-            @PathVariable Long id, 
-            @RequestParam String nuevoEstado) {
+    		@PathVariable(name = "id") Long id, 
+            @RequestParam(name = "nuevoEstado") String nuevoEstado) {
         return ResponseEntity.ok(ordenService.cambiarEstado(id, nuevoEstado));
     }
 
