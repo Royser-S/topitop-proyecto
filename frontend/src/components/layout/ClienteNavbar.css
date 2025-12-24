@@ -1,0 +1,88 @@
+/* --- Estilos existentes que ya tienes --- */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  z-index: 1050;
+  padding: 20px;
+  border-top: 2px solid #000;
+  background-color: white; /* Asegúrate de tener fondo blanco */
+}
+
+.mega-menu img {
+  max-height: 120px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* --- BUSCADOR: AJUSTES PARA QUE SE VEA COMO LA IMAGEN 2 --- */
+
+.search-container {
+    width: 350px; /* Un poco más ancho para que se luzca el texto */
+    position: relative;
+}
+
+/* Ajuste del input para que sea una línea simple (opcional, según tu gusto) */
+.search-container .form-control {
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    padding-left: 0;
+    font-size: 14px;
+}
+
+/* Dropdown de Tendencias: El Panel Blanco */
+.tendencias-dropdown {
+    position: absolute;
+    top: 100%; /* Justo debajo del input */
+    right: 0;
+    width: 100%; /* Mismo ancho que el buscador */
+    background-color: #fff;
+    z-index: 2000;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.1); /* Sombra suave para que flote */
+    border: 1px solid #eee;
+    border-radius: 0 0 8px 8px; /* Redondeado solo en las esquinas de abajo */
+    padding: 20px;
+    margin-top: 5px;
+}
+
+.tendencias-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    text-transform: none; /* Quitamos mayúsculas totales para que sea más moderno */
+    margin-bottom: 15px;
+    display: block;
+}
+
+.tendencia-item {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f9f9f9; /* Línea divisoria muy tenue */
+}
+
+.tendencia-item:last-child {
+    border-bottom: none;
+}
+
+.tendencia-item:hover {
+    color: #000;
+    background-color: #fafafa;
+    padding-left: 5px; /* Pequeño efecto de movimiento al pasar el mouse */
+    transition: all 0.2s ease;
+}
+
+.tendencia-number {
+    color: #bbb;
+    margin-right: 12px;
+    font-weight: 400;
+    font-size: 13px;
+    width: 18px;
+}

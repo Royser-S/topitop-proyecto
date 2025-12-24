@@ -13,6 +13,6 @@ public interface TerminoBusquedaRepository extends JpaRepository<TerminoBusqueda
     Optional<TerminoBusqueda> findByTermino(String termino);
 
     // SQL Mágico: Dame las 5 palabras más buscadas, ordenadas de mayor a menor
-    @Query(value = "SELECT * FROM terminos_busqueda ORDER BY cantidad_busquedas DESC LIMIT 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM terminos_busqueda ORDER BY cantidad_busquedas DESC LIMIT 10", nativeQuery = true)
     List<TerminoBusqueda> findTop5MasBuscados();
 }
