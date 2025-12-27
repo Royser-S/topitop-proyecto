@@ -1,64 +1,121 @@
 # 🛍️ TopiTop - E-commerce Ecosystem
 
-> Sistema integral que consta de dos módulos principales: Panel Administrativo (Completado) y Tienda del Cliente (En desarrollo).
+> Sistema integral que consta de dos módulos principales:  
+> **Panel Administrativo (Completado)** y **Tienda del Cliente (En desarrollo activo).**
 
-Actualmente, este repositorio contiene el **Panel Administrativo**, desarrollado para optimizar los procesos internos de la tienda. Permite gestionar productos, monitorear ingresos y controlar el inventario antes del lanzamiento del portal de ventas al cliente.
+Actualmente, este repositorio contiene el **Panel Administrativo** y los componentes base de la **tienda pública**, permitiendo gestionar el catálogo, inventario y órdenes, además de ofrecer una experiencia real de compra.
+
+---
+
+## 🚀 Módulos del Sistema
+
+| Módulo | Estado | Descripción |
+|------|--------|-------------|
+| 🏢 Panel Administrativo | ✔ Completado | Gestión interna de negocio |
+| 🛒 Tienda Cliente | ✔ Completado  | Catálogo, carrito y compras |
+| 🔐 Seguridad JWT | ✔ Completado | Accesos protegidos |
+| 📦 Órdenes / Boletas | ✔ Completado | Generación automática |
+
+---
+
+# 🎛️ PANEL ADMINISTRATIVO
 
 ![React](https://img.shields.io/badge/React-20232a?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-Este proyecto es un **Dashboard Administrativo** desarrollado para optimizar los procesos internos de la tienda **TopiTop**. Permite a los administradores gestionar productos en tiempo real, monitorear ingresos mediante gráficos interactivos y generar documentación contable automáticamente.
+Dashboard diseñado para optimizar los procesos internos:
+
+✔ control de inventario  
+✔ reportes profesionales  
+✔ ventas y métricas  
+✔ exportación documental  
 
 ---
 
-## 🛠️ Estado del Proyecto y Próximos Pasos
+## 🛠️ Estado del Proyecto
 
-El proyecto se encuentra en una fase de desarrollo modular. 
-
-- [x] **Fase 1: Panel Administrativo:** Gestión de inventario, reportes PDF/Excel, dashboard de métricas y seguridad.
-- [ ] **Fase 2: Tienda del Cliente (Próximamente):** Portal público para usuarios, carrito de compras, pasarela de pagos y catálogo interactivo.
-
+- [x] **Fase 1:** Panel Admin (inventario, reportes, seguridad)
+- [x] **Fase 2:** API pública para catálogo y órdenes
+- [x] **Fase 3:** Carrito + checkout funcional
 
 ---
 
-## 🚀 Características Principales
+## 📊 Inteligencia de Negocio
 
-### 📊 Inteligencia de Negocio
-- **Dashboard en Tiempo Real:** Visualización de KPIs (Ingresos totales, Ventas del día, Stock crítico).
-- **Gráficos Interactivos:** Análisis de ingresos semanales implementado con `Recharts`.
-- **Notificaciones:** Sistema de alertas (campana) que avisa automáticamente cuando un producto tiene bajo stock (menos de 10 unidades).
-
-### 📦 Gestión de Inventario
-- **CRUD Completo:** Creación, edición y deshabilitación de productos, marcas, tallas y colores.
-- **Control de Stock:** Gestión precisa de inventario por variantes (SKU).
-- **Catálogo Visual:** Vista rápida de productos con sus estados (Activo/Inactivo).
-
-### 📑 Reportes y Exportación
-- **Excel Corporativo:** Exportación de tablas de Ventas e Inventario con formato contable usando `ExcelJS`.
-- **Facturación PDF:** Generación automática de Boletas de Venta Electrónica con cálculo de IGV y diseño profesional usando `jsPDF`.
-
-### 🎨 UI/UX Avanzada
-- **Modo Oscuro/Claro:** Persistencia de tema con `localStorage`.
-- **Diseño Responsivo:** Adaptable a móviles y escritorio gracias a Bootstrap 5.
-- **Footer Dinámico:** Pie de página con mascota interactiva (Capibara) que cambia según el tema.
+- Dashboard con KPIs en tiempo real  
+- Gráficos dinámicos (ventas semanales)  
+- Alertas de stock bajo (menos de 10 unidades)
 
 ---
 
-## 🛠️ Tecnologías y Librerías
+## 📦 Gestión de Inventario
 
-El proyecto fue construido utilizando las siguientes herramientas:
+- CRUD completo de productos, categorías, tallas, marcas
+- Control de variantes (SKU)
+- Activación / Desactivación de productos
 
-| Tecnología | Propósito |
-| :--- | :--- |
-| **React + Vite** | Framework principal para una SPA rápida y optimizada. |
-| **Bootstrap 5** | Maquetación responsiva y componentes UI. |
-| **React Router DOM** | Manejo de rutas protegidas y navegación SPA. |
-| **Recharts** | Visualización de datos y gráficos estadísticos. |
-| **ExcelJS + FileSaver** | Generación de reportes .xlsx con estilos avanzados. |
-| **jsPDF + AutoTable** | Motor de renderizado para Boletas de Venta en PDF. |
-| **SweetAlert2** | Alertas modales modernas para confirmaciones (Logout, Delete). |
-| **Axios** | (Implícito) Comunicación asíncrona con el Backend API. |
+---
+
+## 📑 Reportes
+
+- **Excel** corporativo (ExcelJS)
+- **Boletas PDF** automáticas (jsPDF)
+- IGV calculado y formato contable
+
+---
+
+## 🎨 UX del Panel
+
+- Dark / Light mode
+- Diseño responsivo
+- Interacciones modernas (SweetAlert2)
+
+---
+
+# 🛒 TIENDA DEL CLIENTE (CATÁLOGO + CARRITO)
+
+El módulo cliente ofrece una experiencia real de e-commerce.
+
+### Funciones implementadas
+
+✔ Catálogo dinámico  
+✔ Filtrado por categoría, marca y talla  
+✔ Buscador inteligente  
+✔ Detalle de producto estilo Topitop  
+✔ Carrito persistente (cartStore)  
+✔ Checkout → genera ORDEN en backend  
+✔ Mensaje de confirmación de compra  
+
+### Detalles del producto
+
+- galería tipo e-commerce
+- miniaturas (thumbnails)
+- precios y descuentos
+- botón añadir al carrito
+
+### Banner inteligente
+
+Botones **Ver más** filtran el catálogo:
+
+• Mujer → muestra productos mujer  
+• Hombre → muestra productos hombre  
+
+---
+
+## 🔐 Seguridad y API
+
+Backend con:
+
+- Spring Security
+- JWT stateless
+- roles ADMIN / USER
+- CORS configurado
+- Validación por token
+
+Ordenes expuestas:
+
+
 
 ---
 
@@ -75,6 +132,8 @@ src/
 │   ├── ventas/      # Tablas y Modales de detalle
 │   └── ...
 ├── pages/           # Vistas principales (Admin)
+│   ├── Admin/       # Páginas de Admin
+│   ├── Cliente/     # páginas de CLiente
 ├── services/        # Capa de comunicación con la API (Service Pattern)
 ├── utils/           # Utilidades de exportación (pdfGenerator, excelExport)
 └── App.jsx          # Configuración de Rutas
@@ -84,17 +143,17 @@ src/
 
 ## 🧠 Conceptos Aplicados
 
-### 1. Patrón de Servicios (Service Layer)
-Para desacoplar la lógica de la vista, todas las llamadas a la API se centralizan en la carpeta `services/`. Esto permite un mantenimiento sencillo y reutilización de código.
+El proyecto adopta una arquitectura desacoplada donde el backend expone una API REST y el frontend actúa únicamente como consumidor. Todas las peticiones HTTP se centralizan dentro de la carpeta services/, evitando duplicación de código y permitiendo escalar funcionalidades sin modificar las vistas.
 
-### 2. Rutas Protegidas (Protected Routes)
-Se implementó un `AdminLayout` que verifica la existencia de un token de autenticación (`localStorage`). Si no existe, redirige automáticamente al Login, protegiendo el panel de accesos no autorizados.
+La autenticación está basada en JWT. Durante el login se genera un token firmado que luego acompaña cada solicitud protegida. Esto permite validar permisos, distinguir roles (ADMIN / USER) y mantener el sistema en modo stateless sin depender de sesiones en el servidor.
 
-### 3. Hooks Personalizados y Efectos
-Uso intensivo de `useEffect` para la sincronización de datos en tiempo real (polling de notificaciones cada 5 segundos) y `useState` para el manejo del estado global de la interfaz (tema oscuro, modales, datos).
+Para la administración del estado, se emplean Hooks de React. useState controla interacción, formularios, catálogos y carrito; useEffect sincroniza datos con la API; y useMemo optimiza operaciones pesadas como filtrado y paginación, mejorando el rendimiento general de la interfaz.
 
-### 4. Generación de Documentos en el Cliente
-A diferencia de sistemas tradicionales que generan PDFs en el servidor, este proyecto utiliza la potencia del navegador para generar reportes (`PDF` y `Excel`) directamente en el cliente, reduciendo la carga del servidor.
+El carrito de compras funciona como un estado global ligero mediante una store propia. Además, se sincroniza con localStorage, garantizando persistencia incluso cuando el usuario recarga la página o cierra el navegador.
+
+Otro pilar es la generación de documentos directamente en el cliente. Reportes en Excel y comprobantes PDF se crean desde el navegador, reduciendo carga del servidor y ofreciendo respuestas más rápidas al usuario.
+
+Finalmente, el backend organiza sus endpoints respetando principios REST: nombres descriptivos, métodos HTTP correctos y separación entre rutas públicas y rutas protegidas. Esto facilita el mantenimiento, la seguridad y la futura integración con aplicaciones externas.
 
 ---
 
