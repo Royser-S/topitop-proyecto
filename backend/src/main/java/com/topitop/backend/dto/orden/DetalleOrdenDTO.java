@@ -16,6 +16,10 @@ import lombok.NoArgsConstructor;
 public class DetalleOrdenDTO {
 	
 	private Long id;
+	
+	// 👇 NUEVOS CAMPOS PARA LA BOLETA
+    private String nombreTalla;
+    private String nombreColor;
 
     @NotBlank(message = "El nombre del producto es obligatorio")
     private String nombreProducto;

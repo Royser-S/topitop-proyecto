@@ -3,7 +3,6 @@ package com.topitop.backend.service.orden;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -99,18 +98,52 @@ public class OrdenService {
         return convertirADTO(ordenGuardada);
     }
     
-    // Convertir Orden -> DTO (Para mostrar el recibo)
+ // ... resto del código del servicio ...
+
+    // 🔄 MÉTODO ACTUALIZADO: Ahora recupera Talla y Color para la boleta
     private OrdenDTO convertirADTO(Orden orden) {
-        OrdenDTO dto = modelMapper.map(orden, OrdenDTO.class);
+        OrdenDTO dto = new OrdenDTO();
         
-        // Mapeamos los detalles manualmente para asegurar que salgan bien
+        dto.setId(orden.getId());
+        dto.setFecha(orden.getFecha());
+        dto.setTotal(orden.getTotal());
+        dto.setEstado(orden.getEstado());
+        dto.setDireccionEnvio(orden.getDireccionEnvio());
+        
         List<DetalleOrdenDTO> detallesDto = orden.getDetalles().stream()
-            .map(d -> modelMapper.map(d, DetalleOrdenDTO.class))
+            .map(d -> {
+                DetalleOrdenDTO det = new DetalleOrdenDTO();
+                det.setId(d.getId());
+                det.setNombreProducto(d.getNombreProducto());
+                det.setCantidad(d.getCantidad());
+                det.setPrecioUnitario(d.getPrecioUnitario());
+                det.setSubtotal(d.getSubtotal());
+                
+                // 👇 MAGIA AQUÍ: Recuperamos datos del Inventario original
+                if (d.getInventario() != null) {
+                    // Talla
+                    if (d.getInventario().getTalla() != null) {
+                        det.setNombreTalla(d.getInventario().getTalla().getValor());
+                    } else {
+                        det.setNombreTalla("Estándar");
+                    }
+                    
+                    // Color
+                    if (d.getInventario().getColor() != null) {
+                        det.setNombreColor(d.getInventario().getColor().getNombre());
+                    } else {
+                        det.setNombreColor("Único");
+                    }
+                }
+                
+                return det;
+            })
             .collect(Collectors.toList());
             
         dto.setDetalles(detallesDto);
         return dto;
     }
+
     
  // ADMIN: CAMBIAR ESTADO DE ORDEN (Y devolver stock si se cancela)
     public OrdenDTO cambiarEstado(Long ordenId, String nuevoEstado) {
