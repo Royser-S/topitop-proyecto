@@ -1,0 +1,51 @@
+.checkout-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 20000;
+}
+
+.checkout-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 22px;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 420px;
+  z-index: 20001;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
+}
+
+.checkout-modal h3 {
+  margin: 0 0 10px;
+}
+
+.checkout-modal input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,.25);
+  margin-bottom: 14px;
+}
+
+.checkout-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.checkout-actions button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.checkout-actions button:last-child {
+  background: #d32f2f;
+  color: #fff;
+}
