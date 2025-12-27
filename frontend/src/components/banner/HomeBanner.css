@@ -2,16 +2,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-
-  /* clave: altura responsiva tipo ecommerce */
   min-height: 420px;
   height: clamp(360px, 42vw, 520px);
 }
 
 .banner-item {
   position: relative;
-  background-size: cover;
+  background-size: cover;      /* evita pixelado */
   background-position: center;
+  background-repeat: no-repeat; /* importante */
   cursor: pointer;
   overflow: hidden;
 }
@@ -31,18 +30,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  /* padding responsivo */
   padding: clamp(18px, 4vw, 64px);
   color: #fff;
 }
 
-/* Texto Mujer / Hombre más pequeño */
 .banner-content h2{
   font-size: clamp(20px, 2.2vw, 32px);
   font-weight: 600;
 }
-
 
 .banner-content button {
   width: fit-content;
@@ -60,13 +55,16 @@
   transform: translateY(-1px);
 }
 
-/* IMÁGENES */
+/* ===================== */
+/*  IMÁGENES — NUEVAS    */
+/* ===================== */
+
 .mujer {
-  background-image: url("/img/mujer.png");
+  background-image: url("https://topitop.vtexassets.com/assets/vtex.file-manager-graphql/images/5d59cc7d-8457-437a-b92a-8e2afdd8ab03___cd7e08d10ccec4bcbe49d4c809bdd1bb.png");
 }
 
 .hombre {
-  background-image: url("/img/hombre.png");
+  background-image: url("https://topitop.vtexassets.com/assets/vtex.file-manager-graphql/images/f099f425-e65c-44e4-9fcd-07a7d6e1b174___0868050c8033f0b9c40bf059f7fdc14c.png");
 }
 
 /* RESPONSIVE */
@@ -91,9 +89,9 @@
     padding: 22px;
   }
 }
+
 /* Hombre alineado a la derecha */
 .hombre .banner-content{
   align-items: flex-end;
   text-align: right;
 }
-

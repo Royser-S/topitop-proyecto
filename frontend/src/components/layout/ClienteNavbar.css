@@ -1,88 +1,229 @@
-/* --- Estilos existentes que ya tienes --- */
+/* =========================
+   NAV / MEGA MENU TOPITOP
+   ========================= */
+
+/* El contenedor del item de menú */
+.mega-parent {
+  position: static; /* importante para que el panel se centre respecto al navbar completo */
+}
+
+/* Panel blanco a lo largo, centrado respecto a la pantalla */
 .mega-menu {
   position: absolute;
   top: 100%;
+
+  /* centrado real */
   left: 50%;
   transform: translateX(-50%);
-  width: 80vw;
-  z-index: 1050;
-  padding: 20px;
+
+  width: 100vw;           /* ocupa todo el ancho visible */
+  max-width: 1440px;      /* límite para que no se “desborde” en monitores muy grandes */
+
+  background-color: #fff;
   border-top: 2px solid #000;
-  background-color: white; /* Asegúrate de tener fondo blanco */
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  padding: 22px 0;
+  z-index: 1050;
 }
 
-.mega-menu img {
-  max-height: 120px;
-  object-fit: cover;
+/* Contenedor centrado interno */
+.mega-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 32px;
+}
+
+/* --------- COLUMNA IZQUIERDA --------- */
+.mega-left {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  padding-right: 24px;
+}
+
+.mega-left-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.mega-left-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.mega-left-link {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #222;
   cursor: pointer;
 }
 
-/* --- BUSCADOR: AJUSTES PARA QUE SE VEA COMO LA IMAGEN 2 --- */
+.mega-left-link:hover {
+  color: #e11d48; /* tono rojo/rosa */
+}
+
+.mega-left-link-all {
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+/* --------- COLUMNA DERECHA --------- */
+.mega-right {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 22px;
+  align-content: flex-start;
+}
+
+/* Tarjeta de subcategoría (círculo + texto) */
+.mega-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mega-tile:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.mega-tile-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+}
+
+.mega-tile-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mega-tile-thumb-placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.mega-tile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mega-tile-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.mega-tile-desc {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.mega-empty {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuste visual para los ítems del menú superior */
+.nav-item-custom {
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   BUSCADOR + TENDENCIAS
+   ========================= */
 
 .search-container {
-    width: 350px; /* Un poco más ancho para que se luzca el texto */
-    position: relative;
+  width: 350px;
+  position: relative;
 }
 
-/* Ajuste del input para que sea una línea simple (opcional, según tu gusto) */
 .search-container .form-control {
-    border: none;
-    border-bottom: 1px solid #000;
-    border-radius: 0;
-    padding-left: 0;
-    font-size: 14px;
+  border: none;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+  padding-left: 0;
+  font-size: 14px;
 }
 
-/* Dropdown de Tendencias: El Panel Blanco */
+/* Dropdown de Tendencias */
 .tendencias-dropdown {
-    position: absolute;
-    top: 100%; /* Justo debajo del input */
-    right: 0;
-    width: 100%; /* Mismo ancho que el buscador */
-    background-color: #fff;
-    z-index: 2000;
-    box-shadow: 0px 10px 20px rgba(0,0,0,0.1); /* Sombra suave para que flote */
-    border: 1px solid #eee;
-    border-radius: 0 0 8px 8px; /* Redondeado solo en las esquinas de abajo */
-    padding: 20px;
-    margin-top: 5px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 2000;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  border-radius: 0 0 8px 8px;
+  padding: 20px;
+  margin-top: 5px;
 }
 
 .tendencias-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: #333;
-    text-transform: none; /* Quitamos mayúsculas totales para que sea más moderno */
-    margin-bottom: 15px;
-    display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 15px;
 }
 
 .tendencia-item {
-    padding: 8px 0;
-    font-size: 14px;
-    color: #444;
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #f9f9f9; /* Línea divisoria muy tenue */
+  padding: 8px 0;
+  font-size: 14px;
+  color: #444;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f9f9f9;
 }
 
 .tendencia-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .tendencia-item:hover {
-    color: #000;
-    background-color: #fafafa;
-    padding-left: 5px; /* Pequeño efecto de movimiento al pasar el mouse */
-    transition: all 0.2s ease;
+  color: #000;
+  background-color: #fafafa;
+  padding-left: 5px;
+  transition: all 0.2s ease;
 }
 
 .tendencia-number {
-    color: #bbb;
-    margin-right: 12px;
-    font-weight: 400;
-    font-size: 13px;
-    width: 18px;
+  color: #bbb;
+  margin-right: 12px;
+  font-weight: 400;
+  font-size: 13px;
+  width: 18px;
+}
+
+.tendencia-text {
+  flex: 1;
 }

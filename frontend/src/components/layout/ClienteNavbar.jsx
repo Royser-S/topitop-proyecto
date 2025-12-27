@@ -5,29 +5,31 @@ import { BsCart, BsPerson, BsSearch } from "react-icons/bs";
 
 // Servicios y Utilidades
 import categoriaPublicService from "../../services/categoria.public.service";
-import busquedaService from "../../services/busqueda.public.service"; 
-import CartDrawer from "../cart/CartDrawer"; // ✅ Nuevo (Compañero)
-import { cartStore } from "../../utils/cartStore"; // ✅ Nuevo (Compañero)
+import busquedaService from "../../services/busqueda.public.service";
+import CartDrawer from "../cart/CartDrawer";
+import { cartStore } from "../../utils/cartStore";
 
 import "./ClienteNavbar.css";
 
 const ClienteNavbar = () => {
-  // --- TUS ESTADOS (Búsqueda y Categorías) ---
+  // --- CATEGORÍAS / MENÚ ---
   const [categorias, setCategorias] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
+
+  // --- BÚSQUEDA / TENDENCIAS ---
   const [terminoBusqueda, setTerminoBusqueda] = useState("");
   const [tendencias, setTendencias] = useState([]);
   const [mostrarTendencias, setMostrarTendencias] = useState(false);
-  
-  // --- ESTADOS DEL COMPAÑERO (Carrito) ---
-  const [cartOpen, setCartOpen] = useState(false); // Controla el Drawer
+
+  // --- CARRITO ---
+  const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState(() => cartStore.getItems());
   const [cartCount, setCartCount] = useState(() => cartStore.getCount());
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- TU LÓGICA: Sincronizar input con URL ---
+  // Sincronizar input con la URL (?search=...)
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const searchQ = params.get("search");
@@ -38,12 +40,13 @@ const ClienteNavbar = () => {
     }
   }, [location]);
 
-  // --- TU LÓGICA: Carga inicial ---
+  // Carga inicial: categorías + tendencias
   useEffect(() => {
     const cargarDatosIniciales = async () => {
       try {
         const dataCats = await categoriaPublicService.listarMenu();
         setCategorias(dataCats || []);
+
         const dataTendencias = await busquedaService.obtenerTendencias();
         setTendencias(dataTendencias || []);
       } catch (error) {
@@ -53,7 +56,7 @@ const ClienteNavbar = () => {
     cargarDatosIniciales();
   }, []);
 
-  // --- LÓGICA DEL COMPAÑERO: Suscripción al carrito ---
+  // Suscripción al carrito global
   useEffect(() => {
     const unsub = cartStore.subscribe((items) => {
       setCartItems(items);
@@ -62,7 +65,6 @@ const ClienteNavbar = () => {
     return unsub;
   }, []);
 
-  // --- TU LÓGICA: Manejo de Búsqueda y Tendencias ---
   const actualizarTendencias = async () => {
     try {
       const data = await busquedaService.obtenerTendencias();
@@ -76,7 +78,7 @@ const ClienteNavbar = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       const query = terminoBusqueda.trim();
-      
+
       if (query !== "") {
         try {
           await busquedaService.registrarBusqueda(query);
@@ -88,7 +90,7 @@ const ClienteNavbar = () => {
         }
       } else {
         setMostrarTendencias(false);
-        navigate(`/Catalogo`); 
+        navigate(`/Catalogo`);
       }
     }
   };
@@ -106,45 +108,108 @@ const ClienteNavbar = () => {
 
       <Navbar bg="white" expand="lg" className="py-0 border-bottom sticky-top">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/Catalogo">
-            <img src="/img/logoCliente.png" alt="Topitop" height="70" />
+        <Navbar.Brand href="/Catalogo">
+              <img src="/img/logoCliente.png" alt="Topitop" height="70" />
           </Navbar.Brand>
 
           <Navbar.Toggle />
           <Navbar.Collapse>
+            {/* ================= MENÚ PRINCIPAL ================= */}
             <Nav className="mx-auto gap-4">
               {categorias.map((cat) => (
                 <div
                   key={cat.id}
-                  className="position-relative"
+                  className="mega-parent"
                   onMouseEnter={() => setActiveMenu(cat.id)}
-                  onMouseLeave={() => setActiveMenu(null)}
+                  // 👇 ya NO hay onMouseLeave aquí
                 >
                   <Nav.Link className="fw-bold text-uppercase nav-item-custom">
                     {cat.nombre}
                   </Nav.Link>
 
+                  {/* ================= MEGA MENU ================= */}
                   {activeMenu === cat.id && (
-                    <div className="mega-menu shadow">
-                      <div className="container-fluid">
-                        <div className="row">
+                    <div
+                      className="mega-menu shadow"
+                      onMouseLeave={() => setActiveMenu(null)} // 👈 el cierre se hace al salir del panel
+                    >
+                      <div className="mega-inner">
+                        {/* COLUMNA IZQUIERDA */}
+                        <div className="mega-left">
+                          <div className="mega-left-title">{cat.nombre}</div>
+
+                          <ul className="mega-left-links">
+                            <li>
+                              <button
+                                type="button"
+                                className="mega-left-link"
+                                onClick={() => {
+                                  setActiveMenu(null);
+                                  navigate(`/Catalogo?categoriaId=${cat.id}`);
+                                }}
+                              >
+                                Novedades
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="mega-left-link"
+                                onClick={() => {
+                                  setActiveMenu(null);
+                                  navigate(`/Catalogo?categoriaId=${cat.id}`);
+                                }}
+                              >
+                                Ofertas y descuentos
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="mega-left-link mega-left-link-all"
+                                onClick={() => {
+                                  setActiveMenu(null);
+                                  navigate(`/Catalogo?categoriaId=${cat.id}`);
+                                }}
+                              >
+                                Ver todo →
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+
+                        {/* COLUMNA DERECHA: SUBCATEGORÍAS */}
+                        <div className="mega-right">
                           {cat.subCategorias?.length > 0 ? (
                             cat.subCategorias.map((sub) => (
-                              <div 
-                                className="col-3 text-center cursor-pointer" 
+                              <button
                                 key={sub.id}
+                                type="button"
+                                className="mega-tile"
                                 onClick={() => handleSubCategoryClick(sub.id)}
                               >
-                                <img
-                                  src={sub.imagenUrl}
-                                  alt={sub.nombre}
-                                  className="img-fluid rounded mb-2"
-                                />
-                                <div className="fw-semibold">{sub.nombre}</div>
-                              </div>
+                                <div className="mega-tile-thumb">
+                                  {sub.imagenUrl ? (
+                                    <img src={sub.imagenUrl} alt={sub.nombre} />
+                                  ) : (
+                                    <div className="mega-tile-thumb-placeholder" />
+                                  )}
+                                </div>
+
+                                <div className="mega-tile-text">
+                                  <div className="mega-tile-name">
+                                    {sub.nombre}
+                                  </div>
+                                  {sub.descripcion && (
+                                    <div className="mega-tile-desc">
+                                      {sub.descripcion}
+                                    </div>
+                                  )}
+                                </div>
+                              </button>
                             ))
                           ) : (
-                            <div className="col text-center text-muted">Sin subcategorías</div>
+                            <div className="mega-empty">Sin subcategorías</div>
                           )}
                         </div>
                       </div>
@@ -154,6 +219,7 @@ const ClienteNavbar = () => {
               ))}
             </Nav>
 
+            {/* ================= BUSCADOR + ICONOS ================= */}
             <div className="d-flex align-items-center gap-3">
               <div className="position-relative search-container">
                 <Form className="d-flex border rounded px-2 align-items-center">
@@ -165,23 +231,35 @@ const ClienteNavbar = () => {
                     onChange={(e) => setTerminoBusqueda(e.target.value)}
                     onKeyDown={manejarBusqueda}
                     onFocus={() => setMostrarTendencias(true)}
-                    onBlur={() => setTimeout(() => setMostrarTendencias(false), 200)}
+                    onBlur={() =>
+                      setTimeout(() => setMostrarTendencias(false), 200)
+                    }
                   />
                   <BsSearch className="text-muted" />
                 </Form>
 
                 {mostrarTendencias && (
                   <div className="tendencias-dropdown shadow-lg border rounded bg-white p-3">
-                    <h6 className="tendencias-title">Términos más buscados:</h6>
+                    <h6 className="tendencias-title">
+                      Términos más buscados:
+                    </h6>
                     <ul className="list-unstyled mb-0">
                       {tendencias.length > 0 ? (
                         tendencias.slice(0, 10).map((item, index) => (
-                          <li key={index} className="tendencia-item" onClick={() => {
-                            setTerminoBusqueda(item);
-                            navigate(`/Catalogo?search=${encodeURIComponent(item)}`);
-                            setMostrarTendencias(false);
-                          }}>
-                            <span className="tendencia-number">{index + 1}.</span>
+                          <li
+                            key={index}
+                            className="tendencia-item"
+                            onClick={() => {
+                              setTerminoBusqueda(item);
+                              navigate(
+                                `/Catalogo?search=${encodeURIComponent(item)}`
+                              );
+                              setMostrarTendencias(false);
+                            }}
+                          >
+                            <span className="tendencia-number">
+                              {index + 1}.
+                            </span>
                             <span className="tendencia-text">{item}</span>
                           </li>
                         ))
@@ -192,10 +270,10 @@ const ClienteNavbar = () => {
                   </div>
                 )}
               </div>
-              
+
               <BsPerson size={20} className="cursor-pointer" />
-              
-              {/* ✅ BOTÓN DE CARRITO UNIFICADO (Usa tu estilo con lógica del compañero) */}
+
+              {/* CARRITO */}
               <button
                 type="button"
                 className="btn p-0 border-0 bg-transparent position-relative"
@@ -212,7 +290,7 @@ const ClienteNavbar = () => {
         </Container>
       </Navbar>
 
-      {/* ✅ DRAWER DEL CARRITO (Funcionalidad del Compañero) */}
+      {/* DRAWER DEL CARRITO */}
       <CartDrawer
         open={cartOpen}
         items={cartItems}
